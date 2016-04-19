@@ -1,0 +1,22 @@
+{
+  "name": "dasanimationtool",
+  "version": "0.0.1",
+  "description": "Electron tool to help with generating animations",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akeresztesgh/DasAnimationTool.git"
+  },
+  "keywords": [
+    "electron"
+  ],
+  "author": "AJ Keresztes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/akeresztesgh/DasAnimationTool/issues"
+  },
+  "homepage": "https://github.com/akeresztesgh/DasAnimationTool#readme"
+}
