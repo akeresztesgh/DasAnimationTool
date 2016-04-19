@@ -1,6 +1,8 @@
 'use strict';
 
 const electron = require('electron');
+let menu = require('./app/mainMenu.js');
+
 // Module to control application life.
 const app = electron.app;
 // Module to create native browser window.
