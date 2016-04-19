@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/akeresztesgh/DasAnimationTool/issues"
   },
-  "homepage": "https://github.com/akeresztesgh/DasAnimationTool#readme"
+  "homepage": "https://github.com/akeresztesgh/DasAnimationTool#readme",
+  "devDependencies": {
+    "electron-prebuilt": "^0.37.6"
+  }
 }
