@@ -4,9 +4,6 @@
   "description": "Electron tool to help with generating animations",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "scripts": {
     "start": "electron main.js"
   },
   "repository": {
@@ -24,5 +21,9 @@
   "homepage": "https://github.com/akeresztesgh/DasAnimationTool#readme",
   "devDependencies": {
     "electron-prebuilt": "^0.37.6"
+  },
+  "dependencies": {
+    "electron-reload": "^0.3.0",
+    "font-awesome": "^4.6.1"
   }
 }
