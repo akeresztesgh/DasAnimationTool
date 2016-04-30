@@ -48,11 +48,13 @@
         var menuHandler = require('./app/menus/menuHandler.js');
         menuHandler.configureDefaults(window);
 
+        var mainContent = document.getElementsByClassName("main-content")[0];
         var retract = document.getElementsByClassName("left-nav-retract")[0];
         retract.onclick = function(e){
             e.preventDefault();
             var leftNav = document.getElementsByClassName("left-nav")[0];
             leftNav.classList.add('small');
+            mainContent.classList.add('main-content-left-small');
         };
 
         var expand = document.getElementsByClassName("left-nav-expand")[0];
@@ -60,8 +62,10 @@
             e.preventDefault();
             var leftNav = document.getElementsByClassName("left-nav")[0];
             leftNav.classList.remove('small');
+            mainContent.classList.remove('main-content-left-small');
         };
 
+        var rightNav = document.getElementsByClassName("right-nav")[0];
     </script>
   </body>
 </html>
