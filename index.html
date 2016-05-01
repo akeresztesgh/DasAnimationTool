@@ -35,9 +35,13 @@
                 <span>Home</span>
                 <i class="fa fa-pencil fa-2x"></i>
             </a>
+            <a href='#' class='eraseElement'>
+                <span>Clear</span>
+                <i class="fa fa-eraser fa-2x"></i>
+            </a>
         </div>
         <div class='main-content'>
-            <canvas id="myCanvas" width="100%" height="100%" style="border:1px solid #000000;">
+            <canvas id="mainCanvas" width='500' height='500'>
             </canvas>
         </div>
         <div class='right-nav'>
@@ -66,6 +70,76 @@
         };
 
         var rightNav = document.getElementsByClassName("right-nav")[0];
+
+        var canvas = document.getElementById("mainCanvas");
+        var ctx = canvas.getContext("2d");
+        //canvas.width  = window.width();
+        canvas.height = window.innerHeight - 1;
+        canvas.width = window.innerWidth - 140 - 150 - 2;
+        var eraseElement = document.getElementsByClassName("eraseElement")[0];
+        eraseElement.addEventListener('click', function(e){
+            e.preventDefault();
+            clearCanvas();
+        });
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        const left = 0;
+        const right = 2;
+        var draw = false;
+        canvas.addEventListener('mousedown', function (e){
+            if(e.button === left){
+                draw = true;
+                findXy('mousedown', e);
+            }
+            else if(e.button === right){
+                alert('right');
+            }
+        }, false);
+        canvas.addEventListener('mouseup', function (e){
+            if(e.button === left){
+                draw = false;
+            }
+            else if(e.button === right){
+                alert('right');
+            }
+        }, false);
+
+        canvas.addEventListener('mousemove', function(e){
+            if(draw){
+                //  ctx.fillRect(e.x,e.y,1,1);
+                findXy('mousemove', e);
+            }
+        }, false);
+
+        function findXy(action, e){
+            prevX = currX;
+            prevY = currY;
+            currX = e.clientX - canvas.offsetLeft - 140;
+            currY = e.clientY - canvas.offsetTop;
+            console.log('x: ' + currX + ' y: ' + currY);
+            console.log('offset-left: ' + canvas.offsetLeft);
+            if(action=== 'mousedown'){
+                ctx.beginPath();
+                ctx.fillRect(currX, currY, 2, 2);
+                ctx.closePath();
+            }else {
+                drawPath();
+            }
+        }
+        var prevX=0, prevY=0, currX=0, currY=0;
+
+        function drawPath() {
+            ctx.beginPath();
+            ctx.moveTo(prevX, prevY);
+            ctx.lineTo(currX, currY);
+            ctx.strokeStyle = 'black';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ctx.closePath();
+        }
     </script>
   </body>
 </html>
