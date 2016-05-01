@@ -6,9 +6,6 @@
     <link rel="stylesheet" type="text/css" href="./node_modules/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" type="text/css" href="./app/app.css">
   </head>
-  <style>
-
-  </style>
   <body>
       <div class='container'>
         <div class='left-nav'>
@@ -17,6 +14,11 @@
             </a>
             <a href='#' class='left-nav-retract'>
                 <i class="fa fa-chevron-left fa-2x" aria-hidden="true"></i>
+            </a>
+
+            <a href='#' class='saveButton'>
+                <span>Save</span>
+                <i class="fa fa-folder fa-2x"></i>
             </a>
 
             <a href='#'>
@@ -49,97 +51,31 @@
         </div>
     </div>
     <script>
+        require('./app/layout-handler.js')(window);
         var menuHandler = require('./app/menus/menuHandler.js');
         menuHandler.configureDefaults(window);
 
-        var mainContent = document.getElementsByClassName("main-content")[0];
-        var retract = document.getElementsByClassName("left-nav-retract")[0];
-        retract.onclick = function(e){
-            e.preventDefault();
-            var leftNav = document.getElementsByClassName("left-nav")[0];
-            leftNav.classList.add('small');
-            mainContent.classList.add('main-content-left-small');
-        };
+        //var rightNav = document.getElementsByClassName("right-nav")[0];
+        var canvasHandler = require('./app/canvas/canvas-handler.js')();
 
-        var expand = document.getElementsByClassName("left-nav-expand")[0];
-        expand.onclick = function(e){
+        var eraseButton = document.getElementsByClassName("eraseElement")[0];
+        eraseButton.addEventListener('click', function(e){
             e.preventDefault();
-            var leftNav = document.getElementsByClassName("left-nav")[0];
-            leftNav.classList.remove('small');
-            mainContent.classList.remove('main-content-left-small');
-        };
-
-        var rightNav = document.getElementsByClassName("right-nav")[0];
-
-        var canvas = document.getElementById("mainCanvas");
-        var ctx = canvas.getContext("2d");
-        //canvas.width  = window.width();
-        canvas.height = window.innerHeight - 1;
-        canvas.width = window.innerWidth - 140 - 150 - 2;
-        var eraseElement = document.getElementsByClassName("eraseElement")[0];
-        eraseElement.addEventListener('click', function(e){
-            e.preventDefault();
-            clearCanvas();
+            canvasHandler.clearCanvas();
         });
 
-        function clearCanvas() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-        }
-
-        const left = 0;
-        const right = 2;
-        var draw = false;
-        canvas.addEventListener('mousedown', function (e){
-            if(e.button === left){
-                draw = true;
-                findXy('mousedown', e);
+        var saveButton = document.getElementsByClassName('saveButton')[0];
+        saveButton.addEventListener('click', function(e){
+            e.preventDefault();
+            const dialog = require('electron').remote.dialog;
+            var fileName = dialog.showSaveDialog(null, {
+                title: 'Save Image',
+                defaultPath: '~/Untitled.png'
+            });
+            if(fileName) {
+                canvasHandler.saveCanvas(fileName);
             }
-            else if(e.button === right){
-                alert('right');
-            }
-        }, false);
-        canvas.addEventListener('mouseup', function (e){
-            if(e.button === left){
-                draw = false;
-            }
-            else if(e.button === right){
-                alert('right');
-            }
-        }, false);
-
-        canvas.addEventListener('mousemove', function(e){
-            if(draw){
-                //  ctx.fillRect(e.x,e.y,1,1);
-                findXy('mousemove', e);
-            }
-        }, false);
-
-        function findXy(action, e){
-            prevX = currX;
-            prevY = currY;
-            currX = e.clientX - canvas.offsetLeft - 140;
-            currY = e.clientY - canvas.offsetTop;
-            console.log('x: ' + currX + ' y: ' + currY);
-            console.log('offset-left: ' + canvas.offsetLeft);
-            if(action=== 'mousedown'){
-                ctx.beginPath();
-                ctx.fillRect(currX, currY, 2, 2);
-                ctx.closePath();
-            }else {
-                drawPath();
-            }
-        }
-        var prevX=0, prevY=0, currX=0, currY=0;
-
-        function drawPath() {
-            ctx.beginPath();
-            ctx.moveTo(prevX, prevY);
-            ctx.lineTo(currX, currY);
-            ctx.strokeStyle = 'black';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-            ctx.closePath();
-        }
+        });
     </script>
   </body>
 </html>
